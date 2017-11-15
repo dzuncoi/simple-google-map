@@ -49,6 +49,40 @@
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.2.4.tgz#ec8438b780baff09254076efe345f30fdb41243e"
 
+"@microsoft/load-themed-styles@^1.7.2":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@microsoft/load-themed-styles/-/load-themed-styles-1.7.9.tgz#81ef6b5fa06a6f201bfadbab931fd52943b64013"
+
+"@uifabric/icons@>=5.2.0 <6.0.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@uifabric/icons/-/icons-5.2.0.tgz#8c49ff1802bed9e1a0fac7873a7c831aae54b243"
+  dependencies:
+    "@uifabric/styling" ">=5.3.0 <6.0.0"
+    tslib "^1.6.0"
+
+"@uifabric/merge-styles@>=5.6.0 <6.0.0":
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/@uifabric/merge-styles/-/merge-styles-5.6.0.tgz#50736677b2fc5bcd3f4b0bdb38b7ecabe7f7ab8e"
+  dependencies:
+    tslib "^1.7.1"
+
+"@uifabric/styling@>=5.3.0 <6.0.0", "@uifabric/styling@>=5.7.0 <6.0.0":
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/@uifabric/styling/-/styling-5.7.0.tgz#23fe436916bba42b01c655012d0f460121d0d4d6"
+  dependencies:
+    "@microsoft/load-themed-styles" "^1.7.2"
+    "@uifabric/merge-styles" ">=5.6.0 <6.0.0"
+    "@uifabric/utilities" ">=5.3.3 <6.0.0"
+    tslib "^1.7.1"
+
+"@uifabric/utilities@>=5.3.3 <6.0.0", "@uifabric/utilities@>=5.4.0 <6.0.0":
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@uifabric/utilities/-/utilities-5.4.0.tgz#06f3e8ba2ab8b56a8a39221c85c338d0ab4e6303"
+  dependencies:
+    "@microsoft/load-themed-styles" "^1.7.2"
+    prop-types "^15.5.10"
+    tslib "^1.7.1"
+
 abab@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
@@ -4651,6 +4685,18 @@ obuf@^1.0.0, obuf@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.1.tgz#104124b6c602c6796881a042541d36db43a5264e"
 
+office-ui-fabric-react@^5.21.2:
+  version "5.21.2"
+  resolved "https://registry.yarnpkg.com/office-ui-fabric-react/-/office-ui-fabric-react-5.21.2.tgz#85449605c70f2bb45e580cbdcd4a36509a6f1e21"
+  dependencies:
+    "@microsoft/load-themed-styles" "^1.7.2"
+    "@uifabric/icons" ">=5.2.0 <6.0.0"
+    "@uifabric/merge-styles" ">=5.6.0 <6.0.0"
+    "@uifabric/styling" ">=5.7.0 <6.0.0"
+    "@uifabric/utilities" ">=5.4.0 <6.0.0"
+    prop-types "^15.5.10"
+    tslib "^1.7.1"
+
 on-finished@~2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/on-finished/-/on-finished-2.3.0.tgz#20f1336481b083cd75337992a16971aa2d906947"
@@ -6486,6 +6532,10 @@ trim-right@^1.0.1:
 tryit@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tryit/-/tryit-1.0.3.tgz#393be730a9446fd1ead6da59a014308f36c289cb"
+
+tslib@^1.6.0, tslib@^1.7.1:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.8.0.tgz#dc604ebad64bcbf696d613da6c954aa0e7ea1eb6"
 
 tty-browserify@0.0.0:
   version "0.0.0"
