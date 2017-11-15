@@ -5,6 +5,7 @@ import logo from './logo.svg';
 import './styles/App.css';
 import { createNewAddress } from './firebase/controllers/address.controller';
 import { getAddressList } from './redux/reducers/address.reducer';
+import { downloadCSV } from './utils/csv';
 
 class App extends Component {
   constructor(props) {
@@ -26,6 +27,10 @@ class App extends Component {
 
   componentDidMount() {
     this.props.getAddressList();
+  }
+
+  downloadCSVFile = () => {
+    downloadCSV({ arrayOfObjects: this.props.addresses.items });
   }
 
   handleSubmit = ($event) => {
@@ -124,6 +129,7 @@ class App extends Component {
             </form>
           </div>
         </div>
+        <button onClick={this.downloadCSVFile}>Download CSV</button>
       </div>
     );
   }
