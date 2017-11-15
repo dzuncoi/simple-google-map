@@ -9,7 +9,18 @@ class App extends Component {
     this.state = {
       header: 'Welcome to React',
     };
-    console.log(firebase);
+  }
+
+  componentDidMount() {
+    const id = Math.floor(Math.random() * 10000000);
+    const ref = firebase.database().ref(`addresses/${id}`);
+    ref.set({
+      city: 'Ho Chi Minh',
+      dataAdded: Date.now(),
+    });
+    // ref.on('value', (snapshot) => {
+    //   console.log(snapshot.val());
+    // });
   }
 
   render() {
