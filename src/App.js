@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import uuid from 'uuid/v4';
+import { connect } from 'react-redux';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import logo from './logo.svg';
 import './styles/App.css';
-import firebase from './firebase/firebase';
+import { createNewAddress } from './firebase/controllers/address.controller';
+import { getAddressList } from './redux/reducers/address.reducer';
 
 class App extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.props.getAddressList();
   }
 
   handleSubmit = ($event) => {
@@ -49,14 +51,13 @@ class App extends Component {
           district: false,
         },
       });
-      firebase.database().ref(`addresses/${uuid()}`).set({
+      createNewAddress({
         street,
         ward,
         district,
         city,
-        dateCreated: Date.now(),
-        dateModified: Date.now(),
-      });
+      }).then(response => console.log(response))
+        .catch(err => console.log(err));
     }
   }
 
@@ -128,4 +129,12 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  addresses: state.address,
+});
+
+const mapDispatchToProps = {
+  getAddressList,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
