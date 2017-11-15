@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './styles/App.css';
+import firebase from './firebase';
 
 class App extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class App extends Component {
     this.state = {
       header: 'Welcome to React',
     };
+    console.log(firebase);
   }
 
   render() {
