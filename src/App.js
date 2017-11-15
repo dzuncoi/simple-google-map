@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import uuid from 'uuid/v4';
 import logo from './logo.svg';
 import './styles/App.css';
-import firebase from './firebase';
+import firebase from './firebase/firebase';
 
 class App extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const id = Math.floor(Math.random() * 10000000);
+    const id = uuid();
     const ref = firebase.database().ref(`addresses/${id}`);
     ref.set({
       city: 'Ho Chi Minh',
