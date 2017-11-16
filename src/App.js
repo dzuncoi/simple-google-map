@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import logo from './logo.svg';
@@ -6,6 +7,7 @@ import './styles/App.css';
 import { createNewAddress } from './firebase/controllers/address.controller';
 import { getAddressList } from './redux/reducers/address.reducer';
 import { downloadCSV } from './utils/csv';
+import MyGoogleMap from './containers/GoogleMap.container';
 
 class App extends Component {
   constructor(props) {
@@ -130,6 +132,7 @@ class App extends Component {
           </div>
         </div>
         <button onClick={this.downloadCSVFile}>Download CSV</button>
+        <MyGoogleMap onPlaceSet={places => console.log('place set', places)} />
       </div>
     );
   }
@@ -141,6 +144,21 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getAddressList,
+};
+
+App.propTypes = {
+  getAddressList: PropTypes.func.isRequired,
+  addresses: PropTypes.shape({
+    items: PropTypes.array,
+    loading: PropTypes.bool,
+  }),
+};
+
+App.defaultProps = {
+  addresses: {
+    items: [],
+    loading: false,
+  },
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
