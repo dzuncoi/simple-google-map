@@ -24,12 +24,11 @@ class AddressListComponent extends Component {
 
   toggleDisplayMode = () => {
     this.setState({
-      displayMode: this.state.displayMode === 'list' ? 'new' : 'list',
+      displayMode: this.state.displayMode === 'list' ? 'form' : 'list',
     });
   }
 
   renderRow = (address) => {
-    console.log('render row', address);
     const {
       street, ward, district, city,
     } = address;
@@ -47,32 +46,31 @@ class AddressListComponent extends Component {
     const { addresses } = this.props;
     const { displayMode } = this.state;
     return (
-      <div className="address-list-container ms-slideRightIn40">
+      <div className={`address-list-container ${displayMode} ms-slideRightIn40`}>
         <h3>Address List</h3>
         <button className="float-btn" onClick={this.toggleDisplayMode}>
           <i className="ms-Icon ms-Icon--Add" aria-hidden="true" />
+          <i className="ms-Icon ms-Icon--Back" aria-hidden="true" />
         </button>
-        {
-          displayMode === 'list' && (
+        <div className="address-content">
+          <div className="list-content">
             <List
               items={addresses.items}
               onRenderCell={this.renderRow}
             />
-          )
-        }
-        {
-          displayMode === 'new' && (
+            {
+              addresses.loading && (
+                <Spinner size={SpinnerSize.large} label="Please wait ..." />
+              )
+            }
+          </div>
+          <div className="form-content">
             <AddressForm
               {...this.props}
               submitAddress={this.onSubmitAddress}
             />
-          )
-        }
-        {
-          addresses.loading && (
-            <Spinner size={SpinnerSize.large} label="Please wait ..." />
-          )
-        }
+          </div>
+        </div>
       </div>
     );
   }

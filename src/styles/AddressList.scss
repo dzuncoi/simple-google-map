@@ -53,14 +53,76 @@
       }
     }
   }
+  .list-content, .form-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    transition: all .35s ease;
+  }
+  &.list {
+    .list-content {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+    .form-content {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(80px);
+    }
+    .float-btn i.ms-Icon--Back {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(20px);
+    }
+    .float-btn i.ms-Icon--Add {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+  }
+  &.form {
+    .form-content {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+    .list-content {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-80px);
+    }
+    .float-btn i.ms-Icon--Add {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-20px);
+    }
+    .float-btn i.ms-Icon--Back {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+  }
 }
 
 .address-form {
   input[type="submit"] {
     display: none;
   }
-  .submit-btn {
+  .submit-area {
     padding-top: 15px;
+    .location-btn {
+      padding-left: 24px;
+      margin-left: 12px;
+      &:after {
+        content: "";
+        font-family: FabricMDL2Icons;
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        font-size: 18px;
+      }
+    }
   }
   .ms-Spinner {
     display: inline-block;
@@ -89,5 +151,11 @@
   }
   i.ms-Icon {
     font-size: 18px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    transition: all ease .35s;
+    transform: rotate(0);
   }
 }

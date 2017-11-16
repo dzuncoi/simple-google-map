@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { DefaultButton, CommandBarButton } from 'office-ui-fabric-react/lib/Button';
 import {
   Spinner,
   SpinnerSize,
@@ -180,7 +180,7 @@ class AddressForm extends Component {
             </div>
           </div>
           <input type="submit" value="Submit" />
-          <div className="submit-btn">
+          <div className="submit-area">
             {
               form.submitting ?
                 <Spinner size={SpinnerSize.large} />
@@ -192,8 +192,8 @@ class AddressForm extends Component {
                     onClick={this.handleSubmit}
                   />
                   <DefaultButton
-                    primary
-                    text="Use your location?"
+                    text="Use your location"
+                    className="location-btn"
                     onClick={this.getUserLocation}
                   />
                 </div>
