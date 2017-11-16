@@ -1,13 +1,21 @@
 import _keys from 'lodash/keys';
-import { retrieveAddress } from '../../firebase/controllers/address.controller';
+import { retrieveAddress, createNewAddress } from '../../firebase/controllers/address.controller';
 
 export const GET_ADDRESS_LIST_REQUEST = 'address/GET_ADDRESS_LIST_REQUEST';
 export const GET_ADDRESS_LIST_SUCCESS = 'address/GET_ADDRESS_LIST_SUCCESS';
 export const GET_ADDRESS_LIST_FAILURE = 'address/GET_ADDRESS_LIST_FAILURE';
 
+export const SUBMIT_ADDRESS_REQUEST = 'addressForm/SUBMIT_ADDRESS_REQUEST';
+export const SUBMIT_ADDRESS_SUCCESS = 'addressForm/SUBMIT_ADDRESS_SUCCESS';
+export const SUBMIT_ADDRESS_FAILURE = 'addressForm/SUBMIT_ADDRESS_FAILURE';
+
 const initialState = {
   items: [],
   loading: false,
+  form: {
+    submitting: false,
+    error: null,
+  },
 };
 
 export default (state = initialState, action) => {
@@ -34,6 +42,36 @@ export default (state = initialState, action) => {
       };
     }
 
+    case SUBMIT_ADDRESS_REQUEST: {
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          submitting: true,
+        },
+      };
+    }
+
+    case SUBMIT_ADDRESS_SUCCESS: {
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          submitting: false,
+        },
+      };
+    }
+
+    case SUBMIT_ADDRESS_FAILURE: {
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          error: action.payload,
+        },
+      };
+    }
+
     default:
       return state;
   }
@@ -56,4 +94,15 @@ export const getAddressList = () => (dispatch) => {
         payload: err,
       });
     });
+};
+
+export const submitNewAddress = data => (dispatch) => {
+  dispatch({ type: SUBMIT_ADDRESS_REQUEST });
+
+  createNewAddress(data)
+    .then(() => dispatch({ type: SUBMIT_ADDRESS_SUCCESS }))
+    .catch(err => dispatch({
+      type: SUBMIT_ADDRESS_FAILURE,
+      payload: err,
+    }));
 };

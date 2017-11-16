@@ -1,0 +1,93 @@
+.address-list-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 400px;
+  overflow: auto;
+  background: white;
+  z-index: 1;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  overflow: auto;
+  h3 {
+    text-align: center;
+    margin: 0;
+    padding: 15px 0;
+    color: white;
+    background-color: #0078d7;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .address-item {
+    padding: 0 15px;
+    border-bottom: 1px solid #e6e6e6;
+    position: relative;
+    &:hover {
+      // background-color: #f7f7f7;
+      .action {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+      }
+    }
+    p {
+      margin: 0;
+      padding: 15px 0;
+    }
+    .action {
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      padding: 0px 15px;
+      cursor: pointer;
+      background: white;
+      transition: all .25s ease;
+      transform: translateX(10px);
+      i.ms-Icon {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+  }
+}
+
+.address-form {
+  input[type="submit"] {
+    display: none;
+  }
+  .submit-btn {
+    padding-top: 15px;
+  }
+  .ms-Spinner {
+    display: inline-block;
+  }
+}
+
+.float-btn {
+  position: absolute;
+  color: white;
+  background-color: #e3008c;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  border-radius: 50%;
+  right: 10px;
+  top: 33px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
+  transition: all ease .45s;
+  z-index: 1;
+  &:hover {
+    background-color: #ff8db4;
+  }
+  i.ms-Icon {
+    font-size: 18px;
+  }
+}
