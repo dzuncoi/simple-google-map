@@ -23,7 +23,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <button onClick={this.downloadCSVFile}>Download CSV</button>
         <AddressListContainer />
         <MyGoogleMap onPlaceSet={this.onPlaceSet} />
       </div>
