@@ -13,6 +13,44 @@ const MyGoogleMap = compose(
     mapElement: <div style={{ height: '100%' }} />,
   }),
   lifecycle({
+    componentDidMount() {
+      setTimeout(() => {
+        const geocoder = new google.maps.Geocoder(); // eslint-disable-line
+        geocoder.geocode({
+          address: 'Viet Nam',
+        }, (results, status) => {
+          if (status === google.maps.GeocoderStatus.OK) { // eslint-disable-line
+            const center = results[0].geometry.location;
+            this.setState({ center });
+            // map.setCenter(results[0].geometry.location);
+            // if (marker) {
+            //   marker.setMap(null);
+            //   if (infowindow) infowindow.close();
+            // }
+            // marker = new google.maps.Marker({
+            //   map: map,
+            //   draggable: true,
+            //   position: results[0].geometry.location
+            // });
+
+            // eslint-disable-next-line
+            // google.maps.event.addListener(marker, 'dragend', function() {
+            //   geocodePosition(marker.getPosition());
+            // });
+            // google.maps.event.addListener(marker, 'click', function() {
+            //   if (marker.formatted_address) {
+            //     infowindow.setContent(marker.formatted_address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+            //   } else {
+            //     infowindow.setContent(address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+            //   }
+            //   infowindow.open(map, marker);
+            // });
+            // google.maps.event.trigger(marker, 'click');
+          }
+        });
+      }, 3000);
+    },
+
     componentWillMount() {
       const refs = {};
 

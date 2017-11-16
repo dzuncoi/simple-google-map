@@ -8,6 +8,7 @@ import { createNewAddress } from './firebase/controllers/address.controller';
 import { getAddressList } from './redux/reducers/address.reducer';
 import { downloadCSV } from './utils/csv';
 import MyGoogleMap from './containers/GoogleMap.container';
+import { mapGooglePlaceToInput } from './utils/transform';
 
 class App extends Component {
   constructor(props) {
@@ -29,6 +30,11 @@ class App extends Component {
 
   componentDidMount() {
     this.props.getAddressList();
+  }
+
+  onPlaceSet = (places) => {
+    const r = mapGooglePlaceToInput(places[0]);
+    console.log(places, r);
   }
 
   downloadCSVFile = () => {
@@ -132,7 +138,7 @@ class App extends Component {
           </div>
         </div>
         <button onClick={this.downloadCSVFile}>Download CSV</button>
-        <MyGoogleMap onPlaceSet={places => console.log('place set', places)} />
+        <MyGoogleMap onPlaceSet={this.onPlaceSet} />
       </div>
     );
   }
