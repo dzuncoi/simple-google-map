@@ -6,7 +6,6 @@ import {
   Spinner,
   SpinnerSize,
 } from 'office-ui-fabric-react/lib/Spinner';
-import _keys from 'lodash/keys';
 
 import { grantUserLocation, getAddressFromLocation } from '../utils/geolocation';
 import { validateAddressForm } from '../utils/validation';
@@ -82,7 +81,6 @@ class AddressForm extends Component {
   handleSubmit = ($event) => {
     $event.preventDefault();
     const r = validateAddressForm(this.state.formValue);
-    console.log(r);
     if (!r.isValidated) {
       this.setState({
         formError: {

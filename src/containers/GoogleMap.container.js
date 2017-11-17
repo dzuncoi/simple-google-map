@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   GoogleMap,
   Marker,
@@ -13,7 +14,11 @@ import {
   lifecycle,
 } from 'recompose';
 import { SearchBox } from 'react-google-maps/lib/components/places/SearchBox';
+import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import _get from 'lodash/get';
+
+import { submitNewAddress } from '../redux/reducers/address.reducer';
+import { mapGooglePlaceToInput } from '../utils/transform';
 
 const MyGoogleMap = compose(
   withProps({
@@ -70,6 +75,7 @@ const MyGoogleMap = compose(
           lat: 41.9, lng: -87.624,
         },
         markers: [],
+        currentPlace: {},
         onMapMounted: (ref) => {
           refs.map = ref;
         },
@@ -79,7 +85,7 @@ const MyGoogleMap = compose(
             center: refs.map.getCenter(),
           });
         },
-        isInfoWindowOpen: false,
+        isInfoWindowOpen: true,
         toggleInfoWindow: () => {
           console.log('toggle info', this.state);
           this.setState({ isInfoWindowOpen: !this.state.isInfoWindowOpen });
@@ -109,10 +115,15 @@ const MyGoogleMap = compose(
           this.setState({
             center: nextCenter,
             markers: nextMarkers,
+            currentPlace: places[0],
           });
 
           this.props.onPlaceSet(places);
           // refs.map.fitBounds(bounds);
+        },
+        addToAddressList: () => {
+          const place = mapGooglePlaceToInput(this.state.currentPlace);
+          this.props.submitNewAddress(place);
         },
       });
     },
@@ -152,10 +163,21 @@ const MyGoogleMap = compose(
     </SearchBox>
     {
       props.markers.map(marker => (
-        <Marker key={marker.position.lat()} position={marker.position} onClick={props.toggleInfoWindow}>
+        <Marker
+          key={marker.position.lat()}
+          position={marker.position}
+          onClick={props.toggleInfoWindow}
+        >
           { props.isInfoWindowOpen && (
             <InfoWindow onCloseClick={props.toggleInfoWindow}>
-              <p>{marker.formatted_address}</p>
+              <div className="text-center">
+                <p>{marker.formatted_address}</p>
+                <PrimaryButton
+                  text="Add to list"
+                  className="location-btn"
+                  onClick={props.addToAddressList}
+                />
+              </div>
             </InfoWindow>
           ) }
         </Marker>
@@ -166,6 +188,11 @@ const MyGoogleMap = compose(
 
 MyGoogleMap.propTypes = {
   onPlaceSet: PropTypes.func,
+  submitNewAddress: PropTypes.func,
 };
 
-export default MyGoogleMap;
+const mapDispatchToProps = {
+  submitNewAddress,
+};
+
+export default connect(null, mapDispatchToProps)(MyGoogleMap);

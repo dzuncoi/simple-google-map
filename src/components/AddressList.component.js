@@ -4,12 +4,10 @@ import {
   Spinner,
   SpinnerSize,
 } from 'office-ui-fabric-react/lib/Spinner';
-// import { List } from 'office-ui-fabric-react/lib/List';
 
 import '../styles/AddressList.css';
 import AddressForm from './AddressForm.component';
 import AddressListRow from './AddressListRow.component';
-// import { createNewAddress } from '../firebase/controllers/address.controller';
 
 class AddressListComponent extends Component {
   constructor(props) {
@@ -23,7 +21,7 @@ class AddressListComponent extends Component {
   componentWillReceiveProps(nextProps) {
     // Back to list if submit success
     if (this.isSubmitFormSuccess(nextProps, this.props)) {
-      this.toggleDisplayMode();
+      this.toggleDisplayMode(undefined, 'list');
     }
   }
 
@@ -31,9 +29,10 @@ class AddressListComponent extends Component {
     this.props.submitNewAddress(data);
   }
 
-  toggleDisplayMode = () => {
+  toggleDisplayMode = (e, mode) => {
+    const displayMode = mode || (this.state.displayMode === 'list' ? 'form' : 'list');
     this.setState({
-      displayMode: this.state.displayMode === 'list' ? 'form' : 'list',
+      displayMode,
     });
   }
 
