@@ -1,7 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { GoogleMap, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
-import { compose, withProps, lifecycle } from 'recompose';
+import {
+  GoogleMap,
+  Marker,
+  InfoWindow,
+  withGoogleMap,
+  withScriptjs,
+} from 'react-google-maps';
+import {
+  compose,
+  withProps,
+  lifecycle,
+} from 'recompose';
 import { SearchBox } from 'react-google-maps/lib/components/places/SearchBox';
 import _get from 'lodash/get';
 
@@ -69,6 +79,11 @@ const MyGoogleMap = compose(
             center: refs.map.getCenter(),
           });
         },
+        isInfoWindowOpen: false,
+        toggleInfoWindow: () => {
+          console.log('toggle info', this.state);
+          this.setState({ isInfoWindowOpen: !this.state.isInfoWindowOpen });
+        },
         onSearchBoxMounted: (ref) => {
           refs.searchBox = ref;
         },
@@ -87,6 +102,7 @@ const MyGoogleMap = compose(
           });
           const nextMarkers = places.map(place => ({
             position: place.geometry.location,
+            formatted_address: place.formatted_address,
           }));
           const nextCenter = _get(nextMarkers, '0.position', this.state.center);
 
@@ -135,8 +151,15 @@ const MyGoogleMap = compose(
       />
     </SearchBox>
     {
-      props.markers.map(marker =>
-        <Marker key={marker.position.lat()} position={marker.position} />)
+      props.markers.map(marker => (
+        <Marker key={marker.position.lat()} position={marker.position} onClick={props.toggleInfoWindow}>
+          { props.isInfoWindowOpen && (
+            <InfoWindow onCloseClick={props.toggleInfoWindow}>
+              <p>{marker.formatted_address}</p>
+            </InfoWindow>
+          ) }
+        </Marker>
+      ))
     }
   </GoogleMap>
 ));

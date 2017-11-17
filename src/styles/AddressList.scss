@@ -4,11 +4,11 @@
   bottom: 0;
   left: 0;
   width: 400px;
-  overflow: auto;
   background: white;
   z-index: 1;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   h3 {
     text-align: center;
     margin: 0;
@@ -158,4 +158,22 @@
     transition: all ease .35s;
     transform: rotate(0);
   }
+}
+
+@keyframes flashBackground {
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: bisque;
+  }
+  100% {
+    background-color: white;
+  }
+}
+
+.flash-bg-anim {
+  animation-name: flashBackground;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
 }

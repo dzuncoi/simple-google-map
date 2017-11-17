@@ -7,11 +7,16 @@ const getDetailAddressRef = id => `addresses/${id}`;
 export const createNewAddress = (data) => {
   const id = uuid();
   const ref = getDetailAddressRef(id);
-  return firebase.database().ref(ref).set({
+  const newData = {
     ...data,
     id,
     dateCreated: Date.now(),
     dateModified: Date.now(),
+  };
+  return new Promise((resolve, reject) => {
+    firebase.database().ref(ref).set(newData)
+      .then(() => resolve(newData))
+      .catch(err => reject(new Error(err)));
   });
 };
 

@@ -4,10 +4,11 @@ import {
   Spinner,
   SpinnerSize,
 } from 'office-ui-fabric-react/lib/Spinner';
-import { List } from 'office-ui-fabric-react/lib/List';
+// import { List } from 'office-ui-fabric-react/lib/List';
 
 import '../styles/AddressList.css';
 import AddressForm from './AddressForm.component';
+import AddressListRow from './AddressListRow.component';
 // import { createNewAddress } from '../firebase/controllers/address.controller';
 
 class AddressListComponent extends Component {
@@ -15,7 +16,15 @@ class AddressListComponent extends Component {
     super(props);
     this.state = {
       displayMode: 'list',
+      isCollapsed: false,
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Back to list if submit success
+    if (this.isSubmitFormSuccess(nextProps, this.props)) {
+      this.toggleDisplayMode();
+    }
   }
 
   onSubmitAddress = (data) => {
@@ -28,36 +37,37 @@ class AddressListComponent extends Component {
     });
   }
 
-  renderRow = (address) => {
-    const {
-      street, ward, district, city,
-    } = address;
-    return (
-      <div className="address-item">
-        <p>{`${street}, ${ward}, ${district}, ${city}`}</p>
-        <div className="action">
-          <i className="ms-Icon ms-Icon--EditNote" aria-hidden="true" />
-        </div>
-      </div>
-    );
+  isSubmitFormSuccess = (nextProps, props) => {
+    const { form } = props.addresses;
+    const { form: nextForm } = nextProps.addresses;
+    if (form.submitting && !nextForm.submitting && !nextForm.error) {
+      return true;
+    }
+    return false;
   }
+
+  renderRow = address => (
+    <AddressListRow address={address} />
+  )
 
   render() {
     const { addresses } = this.props;
-    const { displayMode } = this.state;
+    const { displayMode, isCollapsed } = this.state;
     return (
-      <div className={`address-list-container ${displayMode} ms-slideRightIn40`}>
+      <div className={`address-list-container ${displayMode} ${isCollapsed ? 'collapsed' : ''} ms-slideRightIn40`}>
         <h3>Address List</h3>
         <button className="float-btn" onClick={this.toggleDisplayMode}>
           <i className="ms-Icon ms-Icon--Add" aria-hidden="true" />
           <i className="ms-Icon ms-Icon--Back" aria-hidden="true" />
         </button>
+        <button className="collapse-btn">
+          <i className="ms-Icon ms-Icon--ChevronLeftMed" aria-hidden="true" />
+        </button>
         <div className="address-content">
           <div className="list-content">
-            <List
-              items={addresses.items}
-              onRenderCell={this.renderRow}
-            />
+            {
+              addresses.items.map(address => <AddressListRow key={address.dateCreated} address={address} />)
+            }
             {
               addresses.loading && (
                 <Spinner size={SpinnerSize.large} label="Please wait ..." />

@@ -53,8 +53,13 @@ export default (state = initialState, action) => {
     }
 
     case SUBMIT_ADDRESS_SUCCESS: {
+      const newItem = {
+        ...action.payload,
+        isNew: true,
+      };
       return {
         ...state,
+        items: [newItem, ...state.items],
         form: {
           ...state.form,
           submitting: false,
@@ -82,7 +87,7 @@ export const getAddressList = () => (dispatch) => {
 
   retrieveAddress()
     .then((val) => {
-      const items = _keys(val).map(k => val[k]);
+      const items = _keys(val).map(k => val[k]).sort((a, b) => b.dateModified - a.dateModified);
       dispatch({
         type: GET_ADDRESS_LIST_SUCCESS,
         payload: items,
@@ -100,7 +105,10 @@ export const submitNewAddress = data => (dispatch) => {
   dispatch({ type: SUBMIT_ADDRESS_REQUEST });
 
   createNewAddress(data)
-    .then(() => dispatch({ type: SUBMIT_ADDRESS_SUCCESS }))
+    .then(response => dispatch({
+      type: SUBMIT_ADDRESS_SUCCESS,
+      payload: response,
+    }))
     .catch(err => dispatch({
       type: SUBMIT_ADDRESS_FAILURE,
       payload: err,
