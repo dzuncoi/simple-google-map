@@ -6,8 +6,10 @@ import {
   Spinner,
   SpinnerSize,
 } from 'office-ui-fabric-react/lib/Spinner';
+import _keys from 'lodash/keys';
 
 import { grantUserLocation, getAddressFromLocation } from '../utils/geolocation';
+import { validateAddressForm } from '../utils/validation';
 
 class AddressForm extends Component {
   constructor(props) {
@@ -77,33 +79,16 @@ class AddressForm extends Component {
     });
   }
 
-  validate = () => {
-    const {
-      ward,
-      district,
-      city,
-    } = this.state.formValue;
-    if (!city && (!ward || !district)) return false;
-    return true;
-  }
-
   handleSubmit = ($event) => {
     $event.preventDefault();
-    const {
-      street,
-      ward,
-      district,
-      city,
-      lat,
-      long,
-    } = this.state.formValue;
-    const r = this.validate();
-    if (!r) {
+    const r = validateAddressForm(this.state.formValue);
+    console.log(r);
+    if (!r.isValidated) {
       this.setState({
         formError: {
           ...this.state.formError,
-          ward: true,
-          district: true,
+          ...this.initialState.formError, // reset remain error validation
+          ...r.err,
         },
       });
     } else {
@@ -112,16 +97,10 @@ class AddressForm extends Component {
           ...this.state.formError,
           ward: false,
           district: false,
+          street: false,
         },
       });
-      this.props.submitAddress({
-        street,
-        ward,
-        district,
-        city,
-        lat,
-        long,
-      });
+      this.props.submitAddress(this.state.formValue);
     }
   }
 
