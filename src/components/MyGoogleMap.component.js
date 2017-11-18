@@ -24,8 +24,7 @@ class MyGoogleMapComponent extends Component {
         lng: 106.7050573,
       },
       markers: [],
-      currentPlace: {},
-      isInfoWindowOpen: true,
+      places: [],
     };
   }
 
@@ -56,28 +55,36 @@ class MyGoogleMapComponent extends Component {
         bounds.extend(place.geometry.location);
       }
     });
-    const nextMarkers = places.map(place => ({
+    const nextMarkers = places.map((place, index) => ({
       position: place.geometry.location,
       formatted_address: place.formatted_address,
+      isInfoWindowOpen: index === 0,
     }));
     const nextCenter = _get(nextMarkers, '0.position', this.state.center);
 
     this.setState({
       center: nextCenter,
       markers: nextMarkers,
-      currentPlace: places[0],
+      places,
     });
 
     // this.props.onPlaceSet(places);
     // refs.map.fitBounds(bounds);
   }
 
-  toggleInfoWindow = () => {
-    this.setState({ isInfoWindowOpen: !this.state.isInfoWindowOpen });
+  toggleInfoWindow = index => () => {
+    // Toggle active marker, close remaining ones
+    const newMarkers = this.state.markers.map((marker, i) => ({
+      ...marker,
+      isInfoWindowOpen: (index === i) ? !marker.isInfoWindowOpen : false,
+    }));
+    this.setState({
+      markers: newMarkers,
+    });
   }
 
-  addToAddressList = () => {
-    const place = mapGooglePlaceToInput(this.state.currentPlace);
+  addToAddressList = index => () => {
+    const place = mapGooglePlaceToInput(this.state.places[index]);
     this.props.submitNewAddress(place);
   }
 
@@ -114,20 +121,20 @@ class MyGoogleMapComponent extends Component {
           />
         </SearchBox>
         {
-          this.state.markers.map(marker => (
+          this.state.markers.map((marker, index) => (
             <Marker
               key={marker.position.lat()}
               position={marker.position}
-              onClick={this.toggleInfoWindow}
+              onClick={this.toggleInfoWindow(index)}
             >
-              { this.state.isInfoWindowOpen && (
-                <InfoWindow onCloseClick={this.toggleInfoWindow}>
+              { marker.isInfoWindowOpen && (
+                <InfoWindow onCloseClick={this.toggleInfoWindow(index)}>
                   <div className="text-center">
                     <p>{marker.formatted_address}</p>
                     <PrimaryButton
                       text="Add to list"
                       className="location-btn"
-                      onClick={this.addToAddressList}
+                      onClick={this.addToAddressList(index)}
                     />
                   </div>
                 </InfoWindow>
