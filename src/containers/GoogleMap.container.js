@@ -22,7 +22,7 @@ const mapDispatchToProps = {
 
 const HOCGoogleMap = compose(
   withProps({
-    googleMapURL: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDflfa13UvWFupZZu17Fw6kNkNUVwDy4dc&v=3.exp&libraries=geometry,drawing,places',
+    googleMapURL: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDMADJYB6Yk_HE4LnHdXQOTpjSlR6q75Hc&v=3.exp&libraries=geometry,drawing,places',
     loadingElement: <div style={{ height: '100%' }} />,
     containerElement: <div style={{ height: '100vh' }} />,
     mapElement: <div style={{ height: '100%' }} />,
