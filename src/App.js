@@ -5,15 +5,9 @@ import './styles/App.css';
 import AddressListContainer from './containers/AddressList.container';
 import { downloadCSV } from './utils/csv';
 import MyGoogleMap from './containers/GoogleMap.container';
-import { mapGooglePlaceToInput } from './utils/transform';
 
 class App extends Component {
   componentDidMount() {
-  }
-
-  onPlaceSet = (places) => {
-    const r = mapGooglePlaceToInput(places[0]);
-    console.log(places, r);
   }
 
   downloadCSVFile = () => {
@@ -24,7 +18,7 @@ class App extends Component {
     return (
       <div className="App">
         <AddressListContainer />
-        <MyGoogleMap onPlaceSet={this.onPlaceSet} />
+        <MyGoogleMap />
       </div>
     );
   }
