@@ -53,7 +53,7 @@
   version "1.7.9"
   resolved "https://registry.yarnpkg.com/@microsoft/load-themed-styles/-/load-themed-styles-1.7.9.tgz#81ef6b5fa06a6f201bfadbab931fd52943b64013"
 
-"@uifabric/icons@>=5.2.0 <6.0.0":
+"@uifabric/icons@>=5.2.0 <6.0.0", "@uifabric/icons@^5.2.0":
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/@uifabric/icons/-/icons-5.2.0.tgz#8c49ff1802bed9e1a0fac7873a7c831aae54b243"
   dependencies:

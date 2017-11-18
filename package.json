@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@uifabric/icons": "^5.2.0",
     "firebase": "^4.6.2",
     "lodash": "^4.17.4",
     "node-sass-chokidar": "^0.0.3",

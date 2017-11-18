@@ -18,6 +18,25 @@
     font-size: 22px;
     margin-bottom: 10px;
   }
+  .context-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 60px;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    .ms-Icon {
+      display: none;
+    }
+    .css-35 {
+      font-size: 20px;
+      display: block;
+    }
+  }
   .address-item {
     padding: 0 15px;
     border-bottom: 1px solid #e6e6e6;
@@ -51,7 +70,7 @@
       transition: all .25s ease;
       transform: translateX(10px);
       i.ms-Icon {
-        font-size: 14px;
+        font-size: 16px;
       }
     }
   }

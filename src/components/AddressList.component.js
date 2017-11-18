@@ -4,10 +4,12 @@ import {
   Spinner,
   SpinnerSize,
 } from 'office-ui-fabric-react/lib/Spinner';
+import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 
 import '../styles/AddressList.css';
 import AddressForm from './AddressForm.component';
 import AddressListRow from './AddressListRow.component';
+import { downloadCSV } from '../utils/csv';
 
 class AddressListComponent extends Component {
   constructor(props) {
@@ -46,6 +48,10 @@ class AddressListComponent extends Component {
     return false;
   }
 
+  downloadCSVFile = () => {
+    downloadCSV({ arrayOfObjects: this.props.addresses.items });
+  }
+
   renderRow = address => (
     <AddressListRow address={address} />
   )
@@ -60,9 +66,23 @@ class AddressListComponent extends Component {
           <i className="ms-Icon ms-Icon--Add" aria-hidden="true" />
           <i className="ms-Icon ms-Icon--Back" aria-hidden="true" />
         </button>
-        <button className="collapse-btn">
-          <i className="ms-Icon ms-Icon--ChevronLeftMed" aria-hidden="true" />
-        </button>
+        <DefaultButton
+          primary
+          text=""
+          iconProps={{ iconName: 'MoreVertical' }}
+          className="context-btn"
+          menuProps={{
+            shouldFocusOnMount: true,
+            items: [{
+              key: 'csv',
+              name: 'Export as CSV',
+              iconProps: {
+                iconName: 'Add',
+              },
+              onClick: this.downloadCSVFile,
+            }],
+          }}
+        />
         <div className="address-content">
           <div className="list-content">
             {
