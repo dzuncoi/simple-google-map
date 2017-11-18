@@ -42,14 +42,16 @@
       top: 0;
       bottom: 0;
       padding: 0px 15px;
+      border: none;
+      border-radius: 0;
+      display: block;
+      outline: none;
       cursor: pointer;
       background: white;
       transition: all .25s ease;
       transform: translateX(10px);
       i.ms-Icon {
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
+        font-size: 14px;
       }
     }
   }
@@ -122,6 +124,9 @@
         left: 6px;
         font-size: 18px;
       }
+    }
+    .danger-btn {
+      margin-left: 12px;
     }
   }
   .ms-Spinner {

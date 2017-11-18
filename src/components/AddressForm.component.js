@@ -38,7 +38,20 @@ class AddressForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // Reset form after submitting
     if (this.props.addresses.form.submitting && !nextProps.addresses.form.submitting) {
+      this.resetForm();
+    }
+
+    const nextEdittingItemId = nextProps.addresses.edittingItemId;
+
+    // Apply form value when editting existed address
+    if (nextEdittingItemId && this.props.addresses.edittingItemId !== nextEdittingItemId) {
+      this.applyEditForm(nextProps.edittingAddress);
+    }
+
+    // Reset form value when discard edit address
+    if (this.props.addresses.edittingItemId && !nextEdittingItemId) {
       this.resetForm();
     }
   }
@@ -59,7 +72,7 @@ class AddressForm extends Component {
         longitude: pos.coords.longitude,
       }))
       .then(location => this.applyUserLocationToAddressForm(location))
-      .catch(err => console.log(err));
+      .catch(() => true);
   }
 
   applyUserLocationToAddressForm = (location) => {
@@ -75,6 +88,12 @@ class AddressForm extends Component {
     this.setState({
       formError: this.initialState.formError,
       formValue: this.initialState.formValue,
+    });
+  }
+
+  applyEditForm = (value) => {
+    this.setState({
+      formValue: value,
     });
   }
 
@@ -98,8 +117,16 @@ class AddressForm extends Component {
           street: false,
         },
       });
-      this.props.submitAddress(this.state.formValue);
+      if (this.props.addresses.edittingItemId) {
+        this.props.updateExistAddress(this.state.formValue);
+      } else {
+        this.props.submitNewAddress(this.state.formValue);
+      }
     }
+  }
+
+  discardEditForm = () => {
+    this.props.discardEditAddress();
   }
 
   render() {
@@ -107,8 +134,10 @@ class AddressForm extends Component {
     const {
       addresses: {
         form,
+        edittingItemId,
       },
     } = this.props;
+    const isEditting = !!edittingItemId;
     return (
       <div className="ms-Grid address-form">
         <form onSubmit={this.handleSubmit}>
@@ -165,9 +194,18 @@ class AddressForm extends Component {
                 <div>
                   <DefaultButton
                     primary
-                    text="Create"
+                    text={isEditting ? 'Save' : 'Create'}
                     onClick={this.handleSubmit}
                   />
+                  {
+                    isEditting && (
+                      <DefaultButton
+                        text="Discard"
+                        className="danger-btn"
+                        onClick={this.discardEditForm}
+                      />
+                    )
+                  }
                   <DefaultButton
                     text="Use your location"
                     className="location-btn"
@@ -183,13 +221,17 @@ class AddressForm extends Component {
 }
 
 AddressForm.propTypes = {
-  submitAddress: PropTypes.func.isRequired,
+  submitNewAddress: PropTypes.func.isRequired,
+  discardEditAddress: PropTypes.func.isRequired,
+  updateExistAddress: PropTypes.func.isRequired,
   addresses: PropTypes.shape({
     form: PropTypes.shape({
       submitting: PropTypes.bool,
       error: PropTypes.any,
     }),
+    edittingItemId: PropTypes.string,
   }),
+  edittingAddress: PropTypes.object,
 };
 
 AddressForm.defaultProps = {
@@ -198,7 +240,9 @@ AddressForm.defaultProps = {
       submitting: false,
       error: null,
     },
+    edittingItemId: null,
   },
+  edittingAddress: null,
 };
 
 export default AddressForm;

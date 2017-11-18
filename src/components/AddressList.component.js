@@ -25,8 +25,9 @@ class AddressListComponent extends Component {
     }
   }
 
-  onSubmitAddress = (data) => {
-    this.props.submitNewAddress(data);
+  onRequestEdit = (id) => {
+    this.props.requestEditAddress(id);
+    this.toggleDisplayMode(undefined, 'form');
   }
 
   toggleDisplayMode = (e, mode) => {
@@ -65,7 +66,13 @@ class AddressListComponent extends Component {
         <div className="address-content">
           <div className="list-content">
             {
-              addresses.items.map(address => <AddressListRow key={address.dateCreated} address={address} />)
+              addresses.items.map(address => (
+                <AddressListRow
+                  key={address.dateCreated}
+                  address={address}
+                  requestEdit={this.onRequestEdit}
+                />
+              ))
             }
             {
               addresses.loading && (
@@ -74,10 +81,7 @@ class AddressListComponent extends Component {
             }
           </div>
           <div className="form-content">
-            <AddressForm
-              {...this.props}
-              submitAddress={this.onSubmitAddress}
-            />
+            <AddressForm {...this.props} />
           </div>
         </div>
       </div>
@@ -94,7 +98,7 @@ AddressListComponent.propTypes = {
       error: PropTypes.any,
     }),
   }),
-  submitNewAddress: PropTypes.func.isRequired,
+  requestEditAddress: PropTypes.func.isRequired,
 };
 
 AddressListComponent.defaultProps = {

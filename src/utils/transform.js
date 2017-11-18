@@ -27,6 +27,19 @@ export const mapGooglePlaceToInput = (place) => {
   return result;
 };
 
+export const beautifyAddressTexts = (...args) => {
+  let result = '';
+  for (let i = 0; i < args.length; i++) {
+    let r = '';
+    if (args[i]) {
+      r = i === args.length - 1 ? args[i] : `${args[i]}, `;
+    }
+    result += r;
+  }
+  return result;
+};
+
 export default {
   mapGooglePlaceToInput,
+  beautifyAddressTexts,
 };
