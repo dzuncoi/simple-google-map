@@ -99,7 +99,8 @@ class AddressForm extends Component {
 
   handleSubmit = ($event) => {
     $event.preventDefault();
-    const r = validateAddressForm(this.state.formValue);
+    const { formValue } = this.state;
+    const r = validateAddressForm(formValue);
     if (!r.isValidated) {
       this.setState({
         formError: {
@@ -117,10 +118,19 @@ class AddressForm extends Component {
           street: false,
         },
       });
+      const valueToSubmit = {
+        street: formValue.street,
+        ward: formValue.ward,
+        district: formValue.district,
+        city: formValue.city,
+        lat: formValue.lat,
+        long: formValue.long,
+      };
+      if (formValue.id) valueToSubmit.id = formValue.id;
       if (this.props.addresses.edittingItemId) {
-        this.props.updateExistAddress(this.state.formValue);
+        this.props.updateExistAddress(valueToSubmit);
       } else {
-        this.props.submitNewAddress(this.state.formValue);
+        this.props.submitNewAddress(valueToSubmit);
       }
     }
   }
